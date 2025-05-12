@@ -146,3 +146,36 @@
   (projectile-mode +1)
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map)))
+
+;; Org Mode
+
+;; Basic Org mode setup with default Emacs installation
+(setq org-directory "~/org")  ;; Set your Org directory
+(setq org-agenda-files (list "~/org/agenda.org"))  ;; Set agenda files
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/agenda.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("n" "Note" entry (file "~/org/notes.org")
+         "* %?\nEntered on %U\n  %i\n  %a")))
+
+;; Optional: Visual enhancements
+(setq org-startup-indented t
+      org-hide-leading-stars t)
+
+;; Formatter
+
+(use-package format-all
+  :hook (prog-mode . format-all-mode)
+  :config
+  (setq-default format-all-formatters
+                '(("JavaScript" (prettier "--jsx-single-quote" "--tab-width 4")))))
+
+;; Tree sitter
+
+(use-package tree-sitter
+  :ensure t)
+
+(use-package tree-sitter-langs
+  :ensure t
+  :hook
+  (tree-sitter-after-on . tree-sitter-hl-mode))
